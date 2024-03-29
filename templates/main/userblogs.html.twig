@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title  %}
+	All Your Blogs
+{% endblock %}
+
+
+{% block body %}
+
+	{% if blogs %}
+		{% for blog in blogs %}
+			{{blog.title}}
+		{% endfor %}
+	{% else %}
+		<div>
+			{{message}}
+			 <a href="{{ path('add_blog') }}">Here!</a>
+		</div>
+	{% endif %}
+
+{% endblock %}

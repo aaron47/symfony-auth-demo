@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,6 +26,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Blog::class, orphanRemoval: true)]
+    private Collection $blogs;
+
+
+    public function __construct()
+    {
+        $this->blogs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,5 +110,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getBlogs(): Collection
+    {
+        return $this->blogs;
+    }
+
+    /**
+     * @param Collection $blogs 
+     * @return self
+     */
+    public function setBlogs(Collection $blogs): static
+    {
+        $this->blogs = $blogs;
+        return $this;
+    }
+
+    public function addBlog(Blog $blog): static
+    {
+        if (!$this->blogs->contains($blog)) {
+            $this->blogs[] = $blog;
+            $blog->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlog(Blog $blog): static
+    {
+        if ($this->blogs->removeElement($blog)) {
+            if ($blog->getUser() === $this) {
+                $blog->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

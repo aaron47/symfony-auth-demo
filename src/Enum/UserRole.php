@@ -1,8 +1,8 @@
 <?php
 namespace App\Enum;
 
-enum UserRole: string
+class UserRole
 {
-	case ROLE_USER = 'ROLE_USER';
-	case ROLE_ADMIN = 'ROLE_ADMIN';
+	const ROLE_USER = 'ROLE_USER';
+	const ROLE_ADMIN = 'ROLE_ADMIN';
 }
