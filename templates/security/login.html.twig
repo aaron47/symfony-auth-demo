@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+	{{ form_start(login_form, {'action': path('api_login'), 'method': 'POST'}) }}
+	{{ form_row(login_form._username, {'value': last_username, 'full_name': '_username'}) }}
+	{{ form_row(login_form._password, {'full_name': '_password'}) }}
+	{{ form_row(login_form.login) }}
+	{{ form_end(login_form) }}
+
+	{# Display login error #}
+	{% if error %}
+		<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	{% endif %}
+{% endblock %}

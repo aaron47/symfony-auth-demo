@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register! :DDD
+{% endblock %}
+
+{% block body %}
+	{{ form_start(registrationForm) }}
+	{{ form_row(registrationForm.email) }}
+	{{ form_row(registrationForm.plainPassword) }}
+	{{ form_row(registrationForm.signup) }}
+	{{ form_end(registrationForm) }}
+{% endblock %}
